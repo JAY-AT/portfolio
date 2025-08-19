@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Futuristic Portfolio | Jay Entileso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0b10;
+      --panel:#0f1121;
+      --text:#e6e6ff;
+      --muted:#9aa0b1;
+      --neon1:#00D1FF; /* cyan */
+      --neon2:#A855F7; /* purple */
+      --neon3:#FF2BD2; /* pink */
+      --neon4:#00ff9d; /* green */
+      --glass: rgba(255,255,255,0.06);
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 40px rgba(168,85,247,.12);
+      --grad: conic-gradient(from 180deg at 50% 50%, var(--neon1), var(--neon2), var(--neon3), var(--neon4), var(--neon1));
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; background: radial-gradient(1200px 600px at 80% -10%, rgba(168,85,247,.22),transparent 60%), radial-gradient(900px 600px at -10% 30%, rgba(0,209,255,.18),transparent 60%), var(--bg);
+      color:var(--text); font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; letter-spacing:.2px;
+      overflow-x:hidden;
+    }
+
+    /* Subtle scanlines */
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(transparent 0 2px, rgba(255,255,255,.02) 2px 3px)}
+
+    a{color:inherit;text-decoration:none}
+
+    .neon{
+      color:#fff; text-shadow: 0 0 10px var(--neon2),0 0 18px var(--neon2), 0 0 36px var(--neon2);
+    }
+
+    /* NAV */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(10,11,16,.7), rgba(10,11,16,.2));
+      border-bottom:1px solid rgba(168,85,247,.25);
+    }
+    .nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px}
+    .brand{display:flex;align-items:center;gap:10px;font-family:Orbitron, sans-serif;font-weight:700;letter-spacing:1px}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--neon1);box-shadow:0 0 10px var(--neon1),0 0 20px var(--neon1)}
+    nav ul{list-style:none;display:flex;gap:22px;margin:0;padding:0}
+    nav a{position:relative;padding:8px 6px;border-radius:10px}
+    nav a::after{content:"";position:absolute;left:10%;right:10%;bottom:4px;height:2px;background:linear-gradient(90deg,var(--neon1),var(--neon3));transform:scaleX(0);transform-origin:left;transition:.35s}
+    nav a:hover::after{transform:scaleX(1)}
+
+    /* HERO */
+    .hero{position:relative;min-height:92vh;display:grid;place-items:center;overflow:hidden}
+    #bg-canvas{position:absolute;inset:0;z-index:-1}
+    .hero-inner{max-width:1200px; width:100%; padding:120px 22px 80px; display:grid; grid-template-columns: 1.2fr .8fr; gap:40px; align-items:center}
+    .title{font-family:Orbitron, sans-serif; font-size:clamp(28px,6vw,64px); line-height:1.05; margin:0 0 12px}
+    .tag{font-size:clamp(16px,2.5vw,20px);color:var(--muted);margin-bottom:20px}
+    .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px}
+    .btn{cursor:pointer;border:1px solid rgba(168,85,247,.4); padding:12px 18px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); color:var(--text); backdrop-filter: blur(6px); box-shadow:var(--shadow); transition:.35s; font-weight:600}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 14px 40px rgba(168,85,247,.26), 0 0 30px rgba(0,209,255,.25)}
+    .btn.primary{border-color:transparent; background:linear-gradient(90deg, var(--neon2), var(--neon3)); box-shadow:0 8px 24px rgba(255,43,210,.25);}
+
+    .hero-card{
+      border-radius:var(--radius); padding:22px; background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12); box-shadow:var(--shadow);
+    }
+    .meta{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px}
+    .chip{border:1px solid rgba(255,255,255,.12); padding:10px 12px; border-radius:14px; font-size:12px; text-transform:uppercase; letter-spacing:1px; opacity:.9}
+
+    /* Sections */
+    section{padding:90px 22px}
+    .wrap{max-width:1200px;margin:auto}
+    .h2{font-family:Orbitron, sans-serif; font-size:clamp(22px,3.5vw,34px); margin:0 0 22px}
+    .lead{color:var(--muted);max-width:880px}
+
+    /* About */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+    .card{
+      position:relative; padding:22px; border-radius:var(--radius); background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12); box-shadow: var(--shadow); transition:.4s; overflow:hidden;
+    }
+    .card:hover{transform: translateY(-6px); box-shadow:0 22px 50px rgba(0,209,255,.18)}
+    .card::before{content:""; position:absolute; inset:-2px; border-radius:inherit; padding:2px; background: linear-gradient(130deg, var(--neon1), transparent 30%, var(--neon2), transparent 70%, var(--neon3)); mask: linear-gradient(#000, transparent);
+-webkit-mask: linear-gradient(#000, transparent);
+
+      -webkit-mask-composite: xor; mask-composite: exclude; opacity:.45; filter:blur(.3px)}
+
+    /* Skills */
+    .skills-grid{display:grid; grid-template-columns:repeat(4, minmax(160px,1fr)); gap:22px; margin-top:26px}
+    .skill{
+      display:flex; flex-direction:column; align-items:center; gap:10px; padding:18px; border-radius:var(--radius);
+      background:var(--glass); border:1px solid rgba(255,255,255,.12); box-shadow:var(--shadow);
+    }
+    .radial{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--neon2) 0deg, rgba(255,255,255,.08) 0deg); position:relative}
+    .radial::after{content:""; position:absolute; inset:8px; border-radius:50%; background: #0d0f1a; box-shadow: inset 0 0 30px rgba(168,85,247,.25)}
+    .radial span{position:absolute;font-weight:700;font-size:18px; font-family:Orbitron, sans-serif; text-shadow:0 0 10px rgba(0,209,255,.4)}
+
+    /* Projects */
+    .projects-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-top:30px}
+    .project{position:relative; border-radius:20px; padding:16px; border:1px solid rgba(255,255,255,.14); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); box-shadow:var(--shadow); overflow:hidden}
+    .project .thumb{height:160px; border-radius:14px; background: radial-gradient(circle at 30% 20%, rgba(0,209,255,.4), transparent 60%), radial-gradient(circle at 70% 60%, rgba(255,43,210,.35), transparent 60%), linear-gradient(135deg, #0b0e1a, #14172b); border:1px solid rgba(255,255,255,.12)}
+    .project h3{margin:14px 10px 6px; font-size:18px}
+    .project p{margin:0 10px 12px; color:var(--muted); font-size:14px}
+    .project .actions{display:flex;gap:10px;padding:0 10px 10px}
+    .link-btn{border:1px solid rgba(255,255,255,.16); padding:10px 12px; border-radius:12px; background: rgba(255,255,255,.04); cursor:pointer; transition:.3s}
+    .link-btn:hover{transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,209,255,.18)}
+
+    /* Modal */
+    .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(4,6,12,.6); backdrop-filter: blur(8px); z-index:60}
+    .modal.active{display:grid}
+    .modal-card{max-width:760px; width:92%; border-radius:20px; border:1px solid rgba(255,255,255,.14); background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04)); box-shadow: var(--shadow); overflow:hidden}
+    .modal-header{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.12)}
+    .modal-body{padding:16px}
+    .close{cursor:pointer; border:none; background:transparent; color:var(--text); font-size:22px}
+
+    /* Contact */
+    form{max-width:740px}
+    .field{display:grid; gap:8px}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    input, textarea{
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:14px 16px; color:var(--text); outline:none; transition:.25s; font-size:15px
+    }
+    input:focus, textarea:focus{border-color: var(--neon1); box-shadow:0 0 0 3px rgba(0,209,255,.15), 0 0 16px rgba(0,209,255,.3)}
+    textarea{min-height:140px; resize:vertical}
+
+    .submit{margin-top:14px}
+
+    /* Footer */
+    footer{padding:24px; text-align:center; color:var(--muted)}
+
+    /* Reveal Animations */
+    .reveal{opacity:0; transform: translateY(18px); transition: .7s ease}
+    .reveal.active{opacity:1; transform:none}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-inner{grid-template-columns:1fr}
+      .about-grid{grid-template-columns:1fr}
+      .skills-grid{grid-template-columns:repeat(2, minmax(160px,1fr))}
+      .projects-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .projects-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand"><span class="dot"></span> <span>Jay Entileso</span></div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div>
+        <h1 class="title neon">Hi, I'm <span style="color:var(--neon1)">Jay Entileso</span></h1>
+        <p class="tag">4th‑Year Computer Science Student • Building delightful, efficient software with an eye for UX and performance.</p>
+        <div class="cta">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Contact Me</a>
+        </div>
+        <div class="meta">
+          <div class="chip">Java • Python • C</div>
+          <div class="chip">HTML • CSS •Sql </div>
+          <div class="chip">UI/UX • Algorithms</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div style="display:flex; align-items:center; gap:14px">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="url(#g1)" stroke-width="2"/>
+            <path d="M8 12h8M12 8v8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="24" y1="0" y2="24">
+                <stop stop-color="#00D1FF"/>
+                <stop offset="1" stop-color="#FF2BD2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div>
+            <strong>Currently seeking internship</strong>
+            <div class="lead" style="font-size:13px">Open to SWE, Frontend, or Systems roles for 2025.</div>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="lead" style="font-size:14px">I love solving real‑world problems through elegant code, from backend services to interactive data visualizations.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <h2 class="h2 reveal">About Me</h2>
+      <p class="lead reveal">I'm a 4th‑year CS student passionate about high‑performance systems, human‑centered design, and developer tooling. I enjoy crafting clean architectures and immersive interfaces.</p>
+      <div class="about-grid">
+        <div class="card reveal">
+          <h3>What I do</h3>
+          <p>Full‑stack development, API design, and interactive frontends. I care about accessibility, testing, and performance budgets.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Toolbox</h3>
+          <p>Java, Python, C, HTML, CSS, Java, PostgreSQL, Docker, Git, Figma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <h2 class="h2 reveal">Skills</h2>
+      <p class="lead reveal">Here are my skills.</p>
+      <div class="skills-grid">
+        <div class="skill reveal">
+          <div class="radial" data-progress="60"><span>0%</span></div>
+          <strong>Java</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="50"><span>0%</span></div>
+          <strong>C</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="80"><span>0%</span></div>
+          <strong>Python</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="90"><span>0%</span></div>
+          <strong>HTML</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="45"><span>0%</span></div>
+          <strong>SQL</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="45"><span>0%</span></div>
+          <strong>Git</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="80"><span>0%</span></div>
+          <strong>CSS</strong>
+        </div>
+        <div class="skill reveal">
+          <div class="radial" data-progress="30"><span>0%</span></div>
+          <strong>Docker</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <h2 class="h2 reveal">Projects</h2>
+      <p class="lead reveal">Here <em>Are</em> My projects.</p>
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>POS System (Java)</h3>
+          <p>Barcode-based checkout with discounts, VAT, and receipt printing. OOP architecture with services & repositories.</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m1">Details</button>
+            <a class="link-btn" href="https://github.com/college-of-mary-immaculate/oop-2025-Entileso-Jay/tree/main/exams/midterm" target="_blank">Live</a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>Algo Visualizer (Python)</h3>
+          <p>Interactive visualizations for sorting & pathfinding with customizable speed and datasets.</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m2">Details</button>
+            <a class="link-btn" href="https://github.com/JAY-AT/my-projects/blob/master/portfolio.html" target="_blank">Code</a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>Portfolio</h3>
+          <p>Creating my portfolio using pure HTML</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m3">Details</button>
+            <a class="link-btn" href="https://github.com/JAY-AT/my-projects/blob/master/portfolio.html" target="_blank">Docs</a>
+          </div>
+        </article>
+
+        <!-- Project 4 (Future) -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>Future Project 2</h3>
+          <p>Coming soon...</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m4">Details</button>
+          </div>
+        </article>
+
+        <!-- Project 5 (Future) -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>Future Project 2</h3>
+          <p>Coming soon...</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m5">Details</button>
+          </div>
+        </article>
+
+        <!-- Project 6 (Future) -->
+        <article class="project reveal">
+          <div class="thumb"></div>
+          <h3>Future Project 3</h3>
+          <p>Coming soon...</p>
+          <div class="actions">
+            <button class="link-btn" data-modal="m6">Details</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALS -->
+  <div class="modal" id="m1">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>POS System (Java)</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>7/11-style POS with barcode scanning, cart system, senior/PWD discounts, VAT, and receipt generation. Built with Java OOP, layered architecture, and comprehensive unit tests. Deployed as a desktop app with printing support.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="m2">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Algo Visualizer</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Visualizes algorithms like Dijkstra, A*, Merge Sort, and Quick Sort. Built with canvas rendering and an event-driven architecture. Performance tuned with requestAnimationFrame and memoized layouts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="m3">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Portfolio</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>A HTML program that introduces my self.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future Modals -->
+  <div class="modal" id="m4">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Future Project 1</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Details will be added once this project is started.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="m5">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Future Project 2</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Details will be added once this project is started.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="m6">
+    <div class="modal-card">
+      <div class="modal-header">
+        <strong>Future Project 3</strong>
+        <button class="close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Details will be added once this project is started.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <h2 class="h2 reveal">Contact</h2>
+      <p class="lead reveal">Have an opportunity or project in mind? Let's talk.</p>
+      <form class="reveal" id="contactForm">
+        <div class="row">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" placeholder="Your name"></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" name="email" placeholder="you@example.com"></div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about your project..."></textarea></div>
+        <div class="submit"><button class="btn primary" type="submit">Send Message</button></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <small>© <span id="year"></span> Jay Entileso • Built with love, caffeine, and neon.</small>
+  </footer>
+
+  <script>
+    // ===== Canvas: Neon Particles + Links =====
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h, dpr, particles;
+
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.width = innerWidth * dpr;
+      h = canvas.height = innerHeight * dpr * 0.92; // section height
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = (innerHeight*0.92) + 'px';
+      init();
+    }
+
+    function rand(a,b){return Math.random()*(b-a)+a}
+
+    function init(){
+      const count = Math.round((innerWidth*innerHeight)/22000);
+      particles = Array.from({length: Math.max(40, count)}, () => ({
+        x: rand(0, w), y: rand(0, h), vx: rand(-0.3, 0.3), vy: rand(-0.3, 0.3), r: rand(1.2, 2.6)
+      }));
+    }
+
+    function tick(){
+      ctx.clearRect(0,0,w,h);
+      // gradient backdrop glow
+      const g = ctx.createRadialGradient(w*0.8, h*0.1, 20, w*0.8, h*0.1, Math.max(w,h));
+      g.addColorStop(0,'rgba(168,85,247,0.18)');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+
+      // draw links
+      for(let i=0;i<particles.length;i++){
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1;
+        for(let j=i+1;j<particles.length;j++){
+          const q = particles[j];
+          const dx = p.x-q.x, dy=p.y-q.y; const dist = Math.hypot(dx,dy);
+          if(dist<140*dpr){
+            const alpha = 1 - dist/(140*dpr);
+            const hue = (i*7 + j*11) % 360;
+            ctx.strokeStyle = `hsla(${hue}, 90%, 60%, ${alpha*0.6})`;
+            ctx.lineWidth = 1*dpr; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        }
+      }
+      // draw particles
+      for(const p of particles){
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r*dpr,0,Math.PI*2);
+        ctx.fillStyle = 'rgba(0,209,255,.85)'; ctx.fill();
+        ctx.shadowColor = 'rgba(0,209,255,.55)'; ctx.shadowBlur = 6*dpr; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    addEventListener('resize', resize); resize(); tick();
+
+    // ===== Reveal on scroll =====
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active'); io.unobserve(e.target)}})
+    }, {threshold: .12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // ===== Radial skill dials =====
+    function animateRadials(){
+      document.querySelectorAll('.radial').forEach(rad =>{
+        const target = +rad.dataset.progress || 0;
+        let val = 0; const span = rad.querySelector('span');
+        const step = ()=>{
+          val += (target - val)*0.08; // easing
+          if(Math.abs(target-val) < .5) val = target;
+          rad.style.background = `conic-gradient(var(--neon2) ${val*3.6}deg, rgba(255,255,255,.08) 0deg)`;
+          span.textContent = Math.round(val) + '%';
+          if(val!==target) requestAnimationFrame(step);
+        }; step();
+      })
+    }
+    // trigger when section visible
+    const skillsSec = document.getElementById('skills');
+    new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting){animateRadials();}})
+    },{threshold:.3}).observe(skillsSec);
+
+    // ===== Modals =====
+    const modalButtons = document.querySelectorAll('[data-modal]');
+    const modals = document.querySelectorAll('.modal');
+    modalButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      document.getElementById(btn.dataset.modal).classList.add('active');
+    }));
+    modals.forEach(m=>{
+      m.addEventListener('click', (e)=>{ if(e.target===m || e.target.closest('.close')) m.classList.remove('active'); })
+    });
+
+    // ===== Contact form (demo) =====
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const msg = form.message.value.trim();
+      if(!name || !email || !msg){ toast('Please fill in all fields.'); return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Enter a valid email.'); return; }
+      toast('Thanks! Your message has been sent.');
+      form.reset();
+    });
+
+    function toast(text){
+      const t = document.createElement('div');
+      t.textContent = text;
+      t.style.position='fixed'; t.style.bottom='24px'; t.style.left='50%'; t.style.transform='translateX(-50%)';
+      t.style.padding='12px 16px'; t.style.borderRadius='14px'; t.style.border='1px solid rgba(255,255,255,.16)';
+      t.style.background='linear-gradient(180deg, rgba(0,209,255,.2), rgba(255,43,210,.15))'; t.style.backdropFilter='blur(6px)';
+      t.style.boxShadow='0 10px 24px rgba(0,0,0,.35)'; t.style.zIndex=99;
+      document.body.appendChild(t);
+      setTimeout(()=>{t.style.transition='all .4s'; t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(10px)';}, 1800);
+      setTimeout(()=>t.remove(), 2400);
+    }
+
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
