@@ -37,7 +37,7 @@ def is_similar(target, text, threshold=0.8):
     return max_similarity >= threshold
 
 
-url = "https://www.amazon.com/DJI-Stabilizer-Ultra-Light-Comfortable-ActiveTrack-dp-B07FSS4R16/dp/B07FSS4R16/ref=dp_ob_title_ce?th=1"
+url = "https://www.amazon.com/Canon-EOS-Mark-RF24-105mm-F4-7-1/dp/B0BL7X3KLV/ref=sr_1_2?crid=JSV9ZU07ABQ5&dib=eyJ2IjoiMSJ9.dERRBb4kqmUcZyXJ4z8BIyzv357NfDBMWPvREbElTYGcaMousI8i6RJnHSE4Tm-1MUPj9C-Qq1T1-jbkEWJAykiDr7icV6MlF8vaVe6vaits8j0eDOjWZuJP6Us2nASynnyCS_EkLJ00oC7bUMxR8m9-7aVibUQ9Nl_W7-aNcUCH0BejIKAev1YaH2mVVcYYx5uOkCplCgx1pNGbTHi4WwdJfV3nMjdqPH8wPXm7_FM.1aVsZqTDoauhXFhS2b5tWBOTx6H00QrOqwaNB-XJz_w&dib_tag=se&keywords=canon+camera&qid=1757870227&sprefix=canon+camer%2Caps%2C301&sr=8-2"
 response = requests.get(url, headers=headers)
 
 if response.status_code == 200:
@@ -74,7 +74,9 @@ if response.status_code == 200:
                 else:
                     stars = 1
 
-                star_rating = "✬ " * stars
+                filled_stars = " ★ " * stars
+                empty_stars = "☆" * (5 - stars)
+                star_rating = filled_stars + empty_stars
 
                 print(f"Reviewer Name: {reviewer_name}")
                 print(f"Review Date: {review_date}")
