@@ -75,7 +75,7 @@ if response.status_code == 200:
                     stars = 1
 
                 filled_stars = " ★ " * stars
-                empty_stars = "☆" * (5 - stars)
+                empty_stars = " ☆ " * (5 - stars)
                 star_rating = filled_stars + empty_stars
 
                 print(f"Reviewer Name: {reviewer_name}")
